@@ -17,6 +17,10 @@
     url('/fonts/CascadiaCode.woff2') format('woff2')
 }
 
+@theme {
+  --font-code: CascadiaCode, Consolas, system-ui;
+}
+
 :root {
   color-scheme: dark light;
   font-family: Inter, 'Inter', system-ui;
