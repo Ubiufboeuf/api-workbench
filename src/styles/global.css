@@ -19,6 +19,12 @@
 
 @theme {
   --font-code: CascadiaCode, Consolas, system-ui;
+
+  --color-coral: #e06c75;
+  --color-green: #98c379;
+  --color-whiskey: #d19a66;
+  --color-fountainBlue: #2bbac5;
+  --color-purple: #c678dd;
 }
 
 :root {
