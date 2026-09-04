@@ -21,7 +21,7 @@
     "@preact/preset-vite": "2.10.6",
     "@stylistic/eslint-plugin": "5.10.0",
     "@types/node": "24.13.3",
-    "eslint": "10.9.1",
+    "eslint": "9.0.0",
     "eslint-plugin-react": "7.37.5",
     "globals": "17.11.0",
     "jiti": "2.7.0",
