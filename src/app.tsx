@@ -10,10 +10,11 @@ export function App () {
       <Sidebar />
       <div class='h-auto w-full flex-1 flex flex-col'>
         <Header />
-        <main class='h-full w-full flex-1 flex flex-col overflow-auto'>
+        <main class='h-full w-full grid grid-rows-[auto_1fr] overflow-hidden'>
           <Search />
-          <div class='w-full h-[calc(100%-40px)] flex-1 flex'>
+          <div class='w-full flex-1 flex'>
             <Request />
+            <div class='w-px h-full bg-base-content/20' />
             <Response />
           </div>
         </main>
