@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import type { ComponentChildren, JSX } from 'preact'
 import { useRef } from 'preact/hooks'
 import { Highlight } from './Highlight'
@@ -146,5 +147,9 @@ export function JSONViewer ({ data }: { data: object }) {
     return <Line comma={isLast !== true}>{wrap(data)}</Line>
   }
   
-  return render(data)
+  return (
+    <div class='w-fit h-fit mockup-code bg-base-100 [&::before]:[content:unset] [&_pre]:[content-visibility:auto]'>
+      {render(data)}
+    </div>
+  )
 }
