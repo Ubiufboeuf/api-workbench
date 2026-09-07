@@ -4,7 +4,7 @@ import { IconAdd, IconTrash } from '../ui/Icons'
 import { Table } from '../ui/Table'
 import type { Param } from '../../types/requestTypes'
 import type { TableColumn } from '../../types/tableTypes'
-import { useRequestStore } from '../../stores/requestParams'
+import { useRequestStore } from '../../stores/requestStore'
 import { useEffect, useRef } from 'preact/hooks'
 
 const columns: TableColumn<Param>[] = [
