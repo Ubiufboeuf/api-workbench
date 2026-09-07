@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unknown-property */
 import type { SVGAttributes } from 'preact'
 import type { ReactNode } from 'preact/compat'
+import type { Theme } from '../../types/uiTypes'
 
 export interface SVGProps {
   children: ReactNode
@@ -78,5 +79,12 @@ export const IconMenu = () => (
     <path d='M4 6l16 0' />
     <path d='M4 12l16 0' />
     <path d='M4 18l16 0' />
+  </Svg>
+)
+
+export const IconTheme = ({ theme }: { theme: Theme }) => (
+  <Svg>
+    { theme === 'dark' && <><path d='M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0' /><path d='M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7' /></> }
+    { theme === 'light' && <><path d='M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008' /></> }
   </Svg>
 )

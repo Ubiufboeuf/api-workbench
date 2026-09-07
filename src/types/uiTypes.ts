@@ -19,3 +19,5 @@ export type UIWidths = 'wide' | 'block'
 export type UISimpleStatus = 'success' | 'failure'
 export type UIStatus = 'success' | 'error' | 'warning' | 'info'
 export type UIDirection = 'left' | 'up' | 'down' | 'right'
+
+export type Theme = 'dark' | 'light'

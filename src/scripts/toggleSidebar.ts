@@ -1,9 +1,9 @@
-window.onload = () => {
+window.addEventListener('load', () => {
   const toggleSidebar = document.querySelector('#toggle-sidebar')
   if (toggleSidebar instanceof HTMLButtonElement) {
     toggleSidebar.onclick = handleClick
   }
-}
+})
 
 function handleClick () {
   const sidebarCheckbox = document.querySelector('#sidebar-checkbox')
