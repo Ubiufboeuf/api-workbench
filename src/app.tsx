@@ -12,9 +12,9 @@ export function App () {
         <Header />
         <main class='h-full w-full grid grid-rows-[auto_1fr] overflow-hidden'>
           <Search />
-          <div class='w-full flex-1 flex'>
+          <div class='w-full h-full min-h-0 flex-1 grid not-lg:grid-rows-[1fr_1px_1fr] lg:grid-cols-[1fr_auto_1fr]'>
             <Request />
-            <div class='w-px h-full bg-base-content/20' />
+            <div class='flex h-px w-full lg:w-px lg:h-full bg-base-content/20' />
             <Response />
           </div>
         </main>

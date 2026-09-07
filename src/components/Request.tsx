@@ -13,7 +13,7 @@ export function Request () {
   const [currentTab, setCurrentTab] = useState(requestTabList[0].id)
   
   return (
-    <section class='w-full h-full px-4 flex flex-col gap-2 overflow-auto'>
+    <section class='w-full h-full max-w-full max-h-full px-4 flex flex-col gap-2 overflow-auto'>
       <Tabs
         tabs={requestTabList}
         state={currentTab}

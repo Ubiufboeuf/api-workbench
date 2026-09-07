@@ -72,3 +72,11 @@ export const IconAdd = () => (
     <path d='M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14' />
   </Svg>
 )
+
+export const IconMenu = () => (
+  <Svg>
+    <path d='M4 6l16 0' />
+    <path d='M4 12l16 0' />
+    <path d='M4 18l16 0' />
+  </Svg>
+)
