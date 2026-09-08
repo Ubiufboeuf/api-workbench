@@ -1,3 +1,4 @@
+import { useId } from 'preact/hooks'
 import type { Tab } from '../../types/tabTypes'
 
 interface Props {
@@ -7,11 +8,13 @@ interface Props {
 }
 
 export function Tabs ({ tabs, setter, state }: Props) {
+  const name = useId()
+  
   return (
     <div class='tabs tabs-border -ml-3'>
       { tabs.map(({ id, label }) => (
         <label key={id} class='tab' onInput={() => setter(id)}>
-          <input name='tab-radio' type='radio' defaultChecked={id === state} hidden />
+          <input name={name} type='radio' defaultChecked={id === state} hidden />
           {label}
         </label>
       )) }
