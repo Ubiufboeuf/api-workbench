@@ -38,5 +38,6 @@ export const SIGNATURES = {
 export const DISPLAYS = {
   TEXT: 'TEXT',
   JSON: 'JSON',
+  HTML: 'HTML',
   IMAGE: 'IMAGE'
 } as const

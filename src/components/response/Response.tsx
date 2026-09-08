@@ -11,6 +11,7 @@ import { DISPLAYS, RESPONSE_TYPES, SIGNATURES } from '../../constants/responseCo
 import type { DisplayKey, ResponseType, SignatureKey } from '../../types/responseTypes'
 import { IconNetwork } from '../ui/Icons'
 import { Icon } from '../ui/Icon'
+import { tryParseHTML, tryParseJSON } from '../../lib/parsers'
 
 const responseTabList: Tab[] = [
   { id: 'response', label: 'Response', view: ResponseView },
@@ -91,15 +92,20 @@ export function Response () {
     
     if (responseType === RESPONSE_TYPES.TEXT) {
       const text = new TextDecoder().decode(buffer)
-      let json
-
-      try {
-        json = JSON.parse(text)
-      } catch {/* empty */}
+      const json = tryParseJSON(text)
 
       if (json) {
         setResponseType(RESPONSE_TYPES.JSON)
         setData(json)
+
+        return
+      }
+
+      const html = tryParseHTML(text)
+
+      if (html) {
+        setResponseType(RESPONSE_TYPES.HTML)
+        setData(html)
 
         return
       }

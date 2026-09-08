@@ -4,6 +4,7 @@ import { JSONViewer } from './JSONViewer'
 import { RESPONSE_TYPES } from '../../constants/responseConstants'
 import { isValidDisplay } from '../../validations/isValidDisplay'
 import { TEXTViewer } from './TEXTViewer'
+import { HTMLViewer } from './HTMLViewer'
 
 export function ResponseView () {
   const data = useResponseStore((state) => state.data)
@@ -24,9 +25,9 @@ export function ResponseView () {
     return <JSONViewer data={data} />
   }
 
-  // if (display === RESPONSE_TYPES.HTML) {
-  //   return <HTMLViewer data={data} />
-  // }
+  if (display === RESPONSE_TYPES.HTML) {
+    return <HTMLViewer data={data} />
+  }
 
   if (display === RESPONSE_TYPES.IMAGE) {
     return (
