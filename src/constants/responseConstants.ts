@@ -1,6 +1,7 @@
 export const RESPONSE_TYPES = {
   TEXT: 'TEXT',
   JSON: 'JSON',
+  HTML: 'HTML',
   IMAGE: 'IMAGE',
   PDF: 'PDF',
   VIDEO: 'VIDEO',
@@ -32,4 +33,10 @@ export const SIGNATURES = {
   OGG: { sig: '4f676753', type: '' },
   FLAC: { sig: '664c6143', type: 'AUDIO' },
   WAV: { sig: '52494646', type: 'AUDIO' }
+} as const
+
+export const DISPLAYS = {
+  TEXT: 'TEXT',
+  JSON: 'JSON',
+  IMAGE: 'IMAGE'
 } as const
