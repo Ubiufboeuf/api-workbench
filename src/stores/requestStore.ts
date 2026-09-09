@@ -1,16 +1,21 @@
 import { create } from 'zustand'
-import type { KV as NewParam, Param } from '../types/requestTypes'
+import type { KV, KV as NewParam, Param } from '../types/requestTypes'
 
 interface RequestStore {
   params: Param[]
+  setParams: (params: KV[]) => void
   addParam: (newParam: NewParam) => void
   deleteParam: (id: string) => void
+  clearAllFocus: () => void
 }
 
 let i = 0 // al menos por ahora no hace falta algo más complejo
 
 export const useRequestStore = create<RequestStore>((set) => ({
-  params: [{ id: `${0}++`, name: '', value: '' }],
+  params: [{ id: `${i++}`, name: '', value: '' }],
+  setParams (params) {
+    set({ params: params.map((p) => ({ ...p, id: `${i++}` })) })
+  },
   addParam (kv) {
     set(({ params }) => {
       const newParam: Param = { ...kv, id: `${i++}` }
@@ -24,5 +29,10 @@ export const useRequestStore = create<RequestStore>((set) => ({
       const newParams = params.filter((p) => p.id !== id)
       return { params: newParams }
     })
+  },
+  clearAllFocus () {
+    set(({ params }) => ({
+      params: params.map((p) => ({ ...p, focus: false }))
+    }))
   }
 }))

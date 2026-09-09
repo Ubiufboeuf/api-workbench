@@ -27,7 +27,7 @@ const columns: TableColumn<Param>[] = [
             placeholder='Nombre...'
             defaultValue={name}
             contentEditable
-            />
+          />
         </div>
       )
     }
@@ -66,8 +66,10 @@ const columns: TableColumn<Param>[] = [
 export function ParamsView () {
   const params = useRequestStore((state) => state.params)
   const addParam = useRequestStore((state) => state.addParam)
+  const clearAllFocus = useRequestStore((state) => state.clearAllFocus)
   
   function handleClick () {
+    clearAllFocus()
     addParam({ name: '', value: '', focus: true })
   }
 
