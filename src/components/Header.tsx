@@ -5,7 +5,7 @@ import { IconMenu } from './ui/Icons'
 export function Header () {
   return (
     <header class='h-14 p-2 md:p-0 md:h-10 w-full border-b border-base-content/20 bg-base-100'>
-      <Button id='toggle-sidebar' shape='square' class='h-full md:hidden z-10 relative'>
+      <Button id='toggle-sidebar' shape='square' fill='ghost' class='h-full md:hidden'>
         <Icon class='size-5'>
           <IconMenu />
         </Icon>

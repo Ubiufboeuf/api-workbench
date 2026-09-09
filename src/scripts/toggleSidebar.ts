@@ -3,6 +3,11 @@ window.addEventListener('load', () => {
   if (toggleSidebar instanceof HTMLButtonElement) {
     toggleSidebar.onclick = handleClick
   }
+
+  const closeSidebar = document.querySelector('#close-sidebar')
+  if (closeSidebar instanceof HTMLButtonElement) {
+    closeSidebar.onclick = handleClick
+  }
 })
 
 function handleClick () {
