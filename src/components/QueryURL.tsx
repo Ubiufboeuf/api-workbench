@@ -3,6 +3,7 @@ import { search } from '../lib/search'
 import { useRef } from 'preact/hooks'
 import { useRequestStore } from '../stores/requestStore'
 import type { KV } from '../types/requestTypes'
+import { Keybinds } from './Keybinds'
 
 export function getQueryParamsFromQueryString (query: string): KV[] {
   const queryIndex = query.indexOf('?')
@@ -53,14 +54,26 @@ export function QueryURL () {
   }
   
   return (
-    <label class='w-full'>
+    <label class='relative flex gap-3 items-center w-full input'>
       <input
         id='search'
         ref={inputRef}
-        class='input w-full font-code'
+        class='peer w-full font-code'
         placeholder='https://...., 192.168.1...., localhost:5173/api....'
         onKeyDown={handleKeyDown}
         onInput={handleInput}
+      />
+      <Keybinds
+        keys='CTRL K'
+        onBind={() => inputRef.current?.focus()}
+        size='sm'
+        class='peer-focus:hidden'
+      />
+      <Keybinds
+        keys='ESCAPE'
+        when={() => inputRef.current === document.activeElement}
+        onBind={() => inputRef.current?.blur()}
+        class='hidden'
       />
     </label>
   )
