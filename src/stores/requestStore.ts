@@ -6,6 +6,8 @@ interface RequestStore {
   setParams: (params: KV[]) => void
   addParam: (newParam: NewParam) => void
   deleteParam: (id: string) => void
+
+  toFocus: string | undefined | null
   clearAllFocus: () => void
 }
 
@@ -18,9 +20,11 @@ export const useRequestStore = create<RequestStore>((set) => ({
   },
   addParam (kv) {
     set(({ params }) => {
-      const newParam: Param = { ...kv, id: `${i++}` }
+      const id = `${i++}`
+      const newParam: Param = { ...kv, id }
       return {
-        params: [...params, newParam]
+        params: [...params, newParam],
+        toFocus: id
       }
     })
   },
@@ -30,6 +34,8 @@ export const useRequestStore = create<RequestStore>((set) => ({
       return { params: newParams }
     })
   },
+
+  toFocus: undefined,
   clearAllFocus () {
     set(({ params }) => ({
       params: params.map((p) => ({ ...p, focus: false }))

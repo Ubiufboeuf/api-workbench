@@ -13,14 +13,20 @@ const columns: TableColumn<Param>[] = [
     header: 'Clave',
     headerClass: 'pl-11',
     class: 'p-0!',
-    render: ({ name, focus }) => {
+    render: ({ id, name, focus: wantsToFocus }) => {
       const nameRef = useRef<HTMLInputElement>(null)
-      useEffect(() => (focus) ? nameRef.current?.focus() : undefined, [])
+      const toFocus = useRequestStore((state) => state.toFocus)
+
+      useEffect(() => {
+        const focus = wantsToFocus && toFocus === id
+        if (focus) nameRef.current?.focus()
+      }, [toFocus])
       
       return (
         <div class='h-full w-full flex items-center gap-3 p-2 px-3'>
           <input type='checkbox' class='checkbox checkbox-accent checkbox-sm' />
           <input
+            id={`${id}-key`}
             ref={nameRef}
             type='text'
             class='input input-sm'
@@ -36,9 +42,10 @@ const columns: TableColumn<Param>[] = [
     key: 'value',
     header: 'Valor',
     class: 'p-0!',
-    render: ({ value }) => (
+    render: ({ id, value }) => (
       <label class='h-full w-full flex items-center p-2 px-3'>
         <input
+          id={`${id}-value`}
           type='text'
           class='input input-sm'
           placeholder='Valor...'
