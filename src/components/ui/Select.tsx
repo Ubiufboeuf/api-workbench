@@ -47,10 +47,6 @@ export function Select ({ id, options, option, class: className = '', onChange }
     select.value = option
   }, [option])
 
-  useEffect(() => {
-    console.log(optionColor)
-  }, [optionColor])
-  
   return (
     <select
       ref={selectRef}
