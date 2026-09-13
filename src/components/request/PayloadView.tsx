@@ -14,7 +14,7 @@ export function PayloadView () {
   }
   
   return <>
-    <span class='text-sm text-base-content/50'>Datos útiles para la petición</span>
+    <span class='text-sm text-base-content/50'>Cuerpo de la petición</span>
     <textarea
       ref={payloadRef}
       id='payload'

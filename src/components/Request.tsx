@@ -7,7 +7,7 @@ import { PayloadView } from './request/PayloadView'
 
 const requestTabList: Tab[] = [
   { id: 'params', label: 'Parámetros', view: ParamsView },
-  { id: 'payload', label: 'Datos útiles', view: PayloadView }
+  { id: 'payload', label: 'Cuerpo de la petición', view: PayloadView }
 ]
 
 export function Request () {
