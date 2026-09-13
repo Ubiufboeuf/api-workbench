@@ -21,12 +21,13 @@ export const useRequestStore = create<RequestStore>((set) => ({
   url: '',
   setURL: (url) => set({ url }),
   
-  params: [{ id: `${i++}`, name: '', value: '' }],
+  params: [{ id: `${i++}`, name: '', value: '', enabled: true }],
   setParams (newParams) {
     set((state) => {
       const mergedParams = newParams.map((p, idx) => ({
         ...p,
-        id: state.params[idx]?.id || `${i++}`
+        id: state.params[idx]?.id || `${i++}`,
+        enabled: p.enabled ?? state.params[idx]?.enabled ?? true
       }))
       return { params: mergedParams }
     })
@@ -34,7 +35,7 @@ export const useRequestStore = create<RequestStore>((set) => ({
   addParam (kv) {
     set(({ params }) => {
       const id = `${i++}`
-      const newParam: Param = { ...kv, id }
+      const newParam: Param = { ...kv, id, enabled: true }
       return {
         params: [...params, newParam],
         toFocus: id
@@ -47,7 +48,8 @@ export const useRequestStore = create<RequestStore>((set) => ({
         id,
         name: data.name,
         value: data.value,
-        focus: data?.focus
+        focus: data?.focus,
+        enabled: data.enabled ?? params[idx].enabled
       }
 
       params[idx] = kv

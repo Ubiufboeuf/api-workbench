@@ -7,10 +7,10 @@ import { Keybinds } from './Keybinds'
 
 export function getQueryParamsFromQueryString (query: string): KV[] {
   const queryIndex = query.indexOf('?')
-  if (queryIndex === -1) return []
+  if (queryIndex === -1) return [{ name: '', value: '', enabled: true }]
 
   const search = query.slice(queryIndex + 1)
-  if (!search) return [{ name: '', value: '' }]
+  if (!search) return [{ name: '', value: '', enabled: true }]
 
   const params: KV[] = []
   
@@ -21,10 +21,14 @@ export function getQueryParamsFromQueryString (query: string): KV[] {
     if (!match) continue
 
     const [, name, value = ''] = match
-    params.push({ name, value })
+    params.push({
+      name: decodeURIComponent(name),
+      value: decodeURIComponent(value),
+      enabled: true
+    })
   }
 
-  return params
+  return params.length > 0 ? params : [{ name: '', value: '', enabled: true }]
 }
 
 export function QueryURL () {
@@ -69,7 +73,7 @@ export function QueryURL () {
     // Para evitar cambiar algo si están usando el input principal
     if (document.activeElement === input) return
 
-    const activeParams = params.filter((p) => p.name !== '' || p.value !== '')
+    const activeParams = params.filter((p) => (p.name !== '' || p.value !== '') && p.enabled !== false)
 
     if (activeParams.length === 0) {
       input.value = url

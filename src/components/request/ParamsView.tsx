@@ -13,7 +13,7 @@ const columns: TableColumn<Param>[] = [
     header: 'Clave',
     headerClass: 'pl-11',
     class: 'p-0!',
-    render: ({ id, name, focus: wantsToFocus, value }, idx) => {
+    render: ({ id, name, focus: wantsToFocus, value, enabled = true }, idx) => {
       const nameRef = useRef<HTMLInputElement>(null)
       const toFocus = useRequestStore((state) => state.toFocus)
       const modifyParam = useRequestStore((state) => state.modifyParam)
@@ -23,7 +23,12 @@ const columns: TableColumn<Param>[] = [
         if (!input) return
 
         const { value: inputValue } = input
-        modifyParam(id, idx, { name: inputValue, value, focus: wantsToFocus })
+        modifyParam(id, idx, { name: inputValue, value, focus: wantsToFocus, enabled })
+      }
+      
+      function handleCheckbox (e: Event) {
+        const isChecked = (e.target as HTMLInputElement).checked
+        modifyParam(id, idx, { name, value, focus: wantsToFocus, enabled: isChecked })
       }
       
       useEffect(() => {
@@ -33,14 +38,19 @@ const columns: TableColumn<Param>[] = [
 
       return (
         <div class='h-full w-full flex items-center gap-3 p-2 px-3'>
-          <input type='checkbox' class='checkbox checkbox-accent checkbox-sm' />
+          <input
+            type='checkbox'
+            class='checkbox checkbox-accent checkbox-sm'
+            checked={enabled}
+            onChange={handleCheckbox}
+          />
           <input
             id={`${id}-key`}
             ref={nameRef}
             type='text'
             class='input input-sm'
             placeholder='Nombre...'
-            defaultValue={name}
+            value={name}
             contentEditable
             onInput={handleInput}
           />
@@ -72,7 +82,7 @@ const columns: TableColumn<Param>[] = [
             type='text'
             class='input input-sm'
             placeholder='Valor...'
-            defaultValue={value}
+            value={value}
             contentEditable
             onInput={handleInput}
           />
