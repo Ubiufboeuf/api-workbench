@@ -44,3 +44,7 @@ body,
   max-width: 1280px;
   margin: 0 auto;
 }
+
+.select {
+  background-image: linear-gradient(45deg, #0000 50%, var(--arrow-color, currentColor) 50%), linear-gradient(135deg, var(--arrow-color, currentColor) 50%, #0000 50%)
+}

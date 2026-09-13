@@ -1,11 +1,13 @@
 import type { TargetedEvent } from 'preact'
-import { useEffect, useId, useRef } from 'preact/hooks'
+import { useEffect, useId, useRef, useState } from 'preact/hooks'
 
 export interface SelectOption {
   id: string
   label: string | number
   default?: boolean
   selectable?: boolean
+  class?: string
+  color?: string
 }
 
 interface SelectProps {
@@ -19,6 +21,9 @@ interface SelectProps {
 export function Select ({ id, options, option, class: className = '', onChange }: SelectProps) {
   const selectId = id ?? useId()
   const selectRef = useRef<HTMLSelectElement>(null)
+  const firstOption = (option ?? options[0])
+  const defaultColor = typeof firstOption === 'string' ? undefined : firstOption.color
+  const [optionColor, setOptionColor] = useState<string | undefined>(defaultColor)
 
   function handleChange (event: TargetedEvent<HTMLSelectElement>) {
     const select = event.currentTarget
@@ -30,6 +35,7 @@ export function Select ({ id, options, option, class: className = '', onChange }
     } else {
       const o = (options as SelectOption[]).find((o) => o.id === select.value)!
       option = o
+      setOptionColor(o.color)
     }
 
     onChange?.(option)
@@ -41,11 +47,16 @@ export function Select ({ id, options, option, class: className = '', onChange }
     select.value = option
   }, [option])
 
+  useEffect(() => {
+    console.log(optionColor)
+  }, [optionColor])
+  
   return (
     <select
       ref={selectRef}
       id={id}
       class={`${className} select cursor-pointer`}
+      style={{ '--option-color': optionColor }}
       onChange={handleChange}
     >
       { options.map((option) => {
@@ -57,9 +68,10 @@ export function Select ({ id, options, option, class: className = '', onChange }
           )
         }
 
-        const { id, label, default: defaultOpt, selectable = true } = option
+        const { id, label, default: defaultOpt, selectable = true, color, class: className = '' } = option
+        
         return (
-          <option key={id} value={id} selected={defaultOpt} disabled={!selectable}>
+          <option key={id} value={id} selected={defaultOpt} disabled={!selectable} class={className} style={{ color }}>
             {label}
           </option>
         )
