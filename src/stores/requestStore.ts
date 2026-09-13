@@ -4,6 +4,9 @@ import type { KV, KV as NewParam, Param } from '../types/requestTypes'
 interface RequestStore {
   url: string
   setURL: (url: string) => void
+
+  httpMethod: string | undefined
+  setHttpMethod: (httpMethod: string | undefined) => void
   
   params: Param[]
   setParams: (params: KV[]) => void
@@ -20,6 +23,9 @@ let i = 0 // al menos por ahora no hace falta algo más complejo
 export const useRequestStore = create<RequestStore>((set) => ({
   url: '',
   setURL: (url) => set({ url }),
+
+  httpMethod: undefined,
+  setHttpMethod: (httpMethod) => set({ httpMethod }),
   
   params: [{ id: `${i++}`, name: '', value: '', enabled: true }],
   setParams (newParams) {

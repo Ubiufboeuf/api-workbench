@@ -1,3 +1,4 @@
+import { useRequestStore } from '../stores/requestStore'
 import { useResponseStore } from '../stores/responseStore'
 
 function getProtocol (query: string) {
@@ -8,11 +9,11 @@ function getProtocol (query: string) {
   }
 }
 
-async function Fetch (url: string | URL, protocol?: string) {
+async function Fetch (url: string | URL, protocol: string | undefined, options: object | RequestInit) {
   if (!protocol || protocol === 'localhost:') {
     return Promise.any([
-      fetch(`http://${url}`),
-      fetch(`https://${url}`)
+      fetch(`http://${url}`, options),
+      fetch(`https://${url}`, options)
     ])
   }
   
@@ -31,6 +32,9 @@ export async function search (query: string) {
     url = new URL(query)
   } catch { /* empty */ }
   
-  const res = await Fetch(url ?? query, protocol)
+  const { httpMethod } = useRequestStore.getState()
+  console.log({ httpMethod })
+  
+  const res = await Fetch(url ?? query, protocol, { method: httpMethod })
   useResponseStore.setState({ res })  
 }

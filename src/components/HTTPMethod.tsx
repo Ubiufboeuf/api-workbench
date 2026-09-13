@@ -1,3 +1,5 @@
+import { useEffect } from 'preact/hooks'
+import { useRequestStore } from '../stores/requestStore'
 import { Select, type SelectOption } from './ui/Select'
 
 const methods: SelectOption[] = [
@@ -9,11 +11,22 @@ const methods: SelectOption[] = [
 ]
 
 export function HTTPMethod () {
+  const setHttpMethod = useRequestStore((state) => state.setHttpMethod)
+
+  function changeHttpMethod ({ id }: { id: string }) {
+    setHttpMethod(id)
+  }
+
+  useEffect(() => {
+    setHttpMethod(methods[0].id)
+  }, [])
+  
   return (
     <Select
       id='http-method'
       options={methods}
       class='w-28 font-semibold text-(--option-color) [--arrow-color:var(--color-base-content)]'
+      onChange={changeHttpMethod}
     />
   )
 }
