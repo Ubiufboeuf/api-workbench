@@ -1,6 +1,6 @@
 import type { TargetedKeyboardEvent } from 'preact'
 import { search } from '../lib/search'
-import { useRef } from 'preact/hooks'
+import { useEffect, useRef } from 'preact/hooks'
 import { useRequestStore } from '../stores/requestStore'
 import type { KV } from '../types/requestTypes'
 import { Keybinds } from './Keybinds'
@@ -29,7 +29,11 @@ export function getQueryParamsFromQueryString (query: string): KV[] {
 
 export function QueryURL () {
   const inputRef = useRef<HTMLInputElement>(null)
-  
+  const params = useRequestStore((state) => state.params)
+  const url = useRequestStore((state) => state.url)
+  const setURL = useRequestStore((state) => state.setURL)
+  const setParams = useRequestStore((state) => state.setParams)
+
   function handleKeyDown (event: TargetedKeyboardEvent<HTMLInputElement>) {
     const input = inputRef.current
     if (!input) return
@@ -47,11 +51,38 @@ export function QueryURL () {
     const input = inputRef.current
     if (!input) return
 
-    const query = input.value.trim().toLowerCase()
-    const queryParams = getQueryParamsFromQueryString(query)
-    const { setParams } = useRequestStore.getState()
+    const fullUrl = input.value.trim()
+
+    const queryIndex = fullUrl.indexOf('?')
+    const baseUrl = queryIndex === -1 ? fullUrl : fullUrl.slice(0, queryIndex)
+    
+    const queryParams = getQueryParamsFromQueryString(fullUrl)
+
+    setURL(baseUrl)
     setParams(queryParams)
   }
+
+  useEffect(() => {
+    const input = inputRef.current
+    if (!input) return
+
+    // Para evitar cambiar algo si están usando el input principal
+    if (document.activeElement === input) return
+
+    const activeParams = params.filter((p) => p.name !== '' || p.value !== '')
+
+    if (activeParams.length === 0) {
+      input.value = url
+      return
+    }
+
+    const searchParams = new URLSearchParams()
+    for (const p of activeParams) {
+      searchParams.append(p.name, p.value)
+    }
+
+    input.value = `${url}?${searchParams.toString()}`
+  }, [url, params])
   
   return (
     <label class='relative flex gap-3 items-center w-full input'>
