@@ -16,6 +16,9 @@ interface RequestStore {
 
   toFocus: string | undefined | null
   clearAllFocus: () => void
+
+  payload: string | undefined
+  setPayload: (payload: string | undefined) => void
 }
 
 let i = 0 // al menos por ahora no hace falta algo más complejo
@@ -76,5 +79,8 @@ export const useRequestStore = create<RequestStore>((set) => ({
     set(({ params }) => ({
       params: params.map((p) => ({ ...p, focus: false }))
     }))
-  }
+  },
+
+  payload: undefined,
+  setPayload: (payload) => set({ payload })
 }))

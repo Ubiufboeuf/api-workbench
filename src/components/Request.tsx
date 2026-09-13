@@ -3,10 +3,11 @@ import { Tabs } from './ui/Tabs'
 import type { Tab } from '../types/tabTypes'
 import { RequestDisplay } from './request/RequestDisplay'
 import { ParamsView } from './request/ParamsView'
+import { PayloadView } from './request/PayloadView'
 
 const requestTabList: Tab[] = [
-  { id: 'params', label: 'Params', view: ParamsView },
-  { id: 'otro', label: 'otro' }
+  { id: 'params', label: 'Parámetros', view: ParamsView },
+  { id: 'payload', label: 'Datos útiles', view: PayloadView }
 ]
 
 export function Request () {
