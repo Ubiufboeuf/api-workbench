@@ -3,7 +3,7 @@ import type { Tab } from '../../types/tabTypes'
 import { Tabs } from '../ui/Tabs'
 import { ResponseDisplay } from './ResponseDisplay'
 import { ResponseView } from './ResponseView'
-import { formatSize } from '../../lib/formatters'
+import { formatDuration, formatSize } from '../../lib/formatters'
 import { Select, type SelectOption } from '../ui/Select'
 import { useResponseStore } from '../../stores/responseStore'
 import { isValidDisplay } from '../../validations/isValidDisplay'
@@ -25,6 +25,14 @@ for (const key in DISPLAYS) {
   displays.push({ id: key, label: display })
 }
 
+function getStatusColor (status: number | undefined) {
+  if (!status) return
+  if (status >= 100 && status < 200) return 'text-blue-400'
+  if (status >= 200 && status < 300) return 'text-green-400'
+  if (status >= 300 && status < 400) return 'text-purple-400'
+  if (status >= 400 && status < 500) return 'text-orange-400'
+  if (status >= 500 && status < 600) return 'text-red-400'
+}
 
 async function getResponseType (buffer: ArrayBuffer): Promise<{ responseType: ResponseType, extra?: any }> {
   const bytes = new Uint8Array(buffer).subarray(0, 4)
@@ -67,8 +75,12 @@ export function Response () {
 
   const display = useResponseStore((state) => state.display)
   const setDisplay = useResponseStore((state) => state.setDisplay)
+  
+  const responseTime = useResponseStore((state) => state.responseTime)
 
-  const responseSize = 99
+  const [status, setStatus] = useState<number | undefined>()
+  const [statusText, setStatusText] = useState<string | undefined>()
+  const [responseSize, setResponseSize] = useState<number | undefined>()
   
   async function handleResponse (res: Response | null) {    
     if (!res) {
@@ -77,8 +89,15 @@ export function Response () {
       return
     }
 
+    const { status, statusText } = res
+    setStatus(status)
+    setStatusText(statusText)
+    
     const buffer = await res.arrayBuffer()
     const { responseType, extra } = await getResponseType(buffer)
+
+    const responseSize = buffer.byteLength
+    setResponseSize(responseSize)
 
     if (responseType === RESPONSE_TYPES.IMAGE) {
       setResponseType(RESPONSE_TYPES.IMAGE)
@@ -142,7 +161,7 @@ export function Response () {
           state={currentTab}
           setter={setCurrentTab}
         />
-        <div class='h-full w-fit flex items-center gap-4'>
+        <div class='h-full w-fit min-w-fit flex items-center gap-3'>
           <Select
             id='select-display'
             options={displays}
@@ -150,7 +169,9 @@ export function Response () {
             option={display}
             onChange={({ id }) => isValidDisplay(id) && setDisplay(id)}
           />
-          <span class='text-sm text-base-content/80'>{formatSize(responseSize)}</span>
+          <span class={`${getStatusColor(status)} text-xs font-semibold w-fit min-w-fit`}>{status} {statusText}</span>
+          <span class='text-xs text-base-content/80'>{responseTime ? formatDuration(responseTime) : '0ms'}</span>
+          <span class='text-xs text-base-content/80'>{responseSize ? formatSize(responseSize) : '0B'}</span>
         </div>
       </div>
       <ResponseDisplay

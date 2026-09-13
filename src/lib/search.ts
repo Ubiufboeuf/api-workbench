@@ -51,8 +51,13 @@ export async function search (query: string) {
   } catch { /* empty */ }
 
   const { httpMethod, payload } = useRequestStore.getState()
+  const { setRes, setResponseTime } = useResponseStore.getState()
   console.log({ httpMethod })
   
+  const initTime = performance.now()
   const res = await Fetch(url ?? query, protocol, { method: httpMethod, payload })
-  useResponseStore.setState({ res })  
+
+  const delta = performance.now() - initTime
+  setResponseTime(delta)
+  setRes(res ?? null)
 }

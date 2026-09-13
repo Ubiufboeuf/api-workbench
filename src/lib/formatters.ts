@@ -15,3 +15,20 @@ export function formatSize (bytes: number) {
     maximumFractionDigits: 2
   }).format(value)
 }
+
+export function formatDuration (ms: number) {
+  let value = ms
+  let unit = 'millisecond'
+
+  if (value >= 1000) {
+    value /= 1000
+    unit = 'second'
+  }
+
+  return new Intl.NumberFormat('es-UY', {
+    style: 'unit',
+    unit: unit,
+    unitDisplay: 'narrow',
+    maximumFractionDigits: 0
+  }).format(value)
+}

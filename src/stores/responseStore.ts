@@ -5,6 +5,9 @@ interface ResponseStore {
   res: Response | null
   setRes: (res: Response | null) => void
 
+  responseTime: number | undefined
+  setResponseTime: (responseTime: number | undefined) => void
+
   data: any
   setData: (data: any) => void
 
@@ -18,6 +21,9 @@ interface ResponseStore {
 export const useResponseStore = create<ResponseStore>((set) => ({
   res: null,
   setRes: (res) => set({ res }),
+
+  responseTime: undefined,
+  setResponseTime: (responseTime) => set({ responseTime }),
 
   data: null,
   setData: (data) => set({ data }),
