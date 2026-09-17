@@ -7,7 +7,7 @@ import { formatDuration, formatSize } from '../../lib/formatters'
 import { Select, type SelectOption } from '../ui/Select'
 import { useResponseStore } from '../../stores/responseStore'
 import { isValidDisplay } from '../../validations/isValidDisplay'
-import { DISPLAYS, RESPONSE_TYPES, SIGNATURES } from '../../constants/responseConstants'
+import { DISPLAYS, RESPONSE_TYPES, SIGNATURES, STATUS_TEXTS } from '../../constants/responseConstants'
 import type { DisplayKey, ResponseType, SignatureKey } from '../../types/responseTypes'
 import { IconNetwork } from '../ui/Icons'
 import { Icon } from '../ui/Icon'
@@ -79,7 +79,6 @@ export function Response () {
   const responseTime = useResponseStore((state) => state.responseTime)
 
   const [status, setStatus] = useState<number | undefined>()
-  const [statusText, setStatusText] = useState<string | undefined>()
   const [responseSize, setResponseSize] = useState<number | undefined>()
   
   async function handleResponse (res: Response | null) {    
@@ -89,9 +88,8 @@ export function Response () {
       return
     }
 
-    const { status, statusText } = res
+    const { status } = res
     setStatus(status)
-    setStatusText(statusText)
     
     const buffer = await res.arrayBuffer()
     const { responseType, extra } = await getResponseType(buffer)
@@ -169,7 +167,7 @@ export function Response () {
             option={display}
             onChange={({ id }) => isValidDisplay(id) && setDisplay(id)}
           />
-          <span class={`${getStatusColor(status)} text-xs font-semibold w-fit min-w-fit`}>{status} {statusText}</span>
+          <span class={`${getStatusColor(status)} text-xs font-semibold w-fit min-w-fit`}>{status} {status ? STATUS_TEXTS[status] : ''}</span>
           <span class='text-xs text-base-content/80'>{responseTime ? formatDuration(responseTime) : '0ms'}</span>
           <span class='text-xs text-base-content/80'>{responseSize ? formatSize(responseSize) : '0B'}</span>
         </div>
