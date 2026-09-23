@@ -13,6 +13,7 @@ export interface ButtonProps extends UIProps {
   selected?: boolean
   disabled?: boolean
   focusable?: boolean
+  popoverTarget?: string
 
   onClick?: (event: TargetedMouseEvent<HTMLButtonElement>) => void
 }

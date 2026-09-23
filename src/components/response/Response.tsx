@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'preact/hooks'
+import { useEffect, useRef, useState } from 'preact/hooks'
 import type { Tab } from '../../types/tabTypes'
 import { Tabs } from '../ui/Tabs'
 import { ResponseDisplay } from './ResponseDisplay'
@@ -9,9 +9,12 @@ import { useResponseStore } from '../../stores/responseStore'
 import { isValidDisplay } from '../../validations/isValidDisplay'
 import { DISPLAYS, RESPONSE_TYPES, SIGNATURES, STATUS_TEXTS } from '../../constants/responseConstants'
 import type { DisplayKey, ResponseType, SignatureKey } from '../../types/responseTypes'
-import { IconNetwork } from '../ui/Icons'
+import { IconCheck, IconCopy, IconDots, IconDownload, IconNetwork } from '../ui/Icons'
 import { Icon } from '../ui/Icon'
 import { tryParseHTML, tryParseJSON } from '../../lib/parsers'
+import { Button } from '../ui/Button'
+import { Popover } from '../ui/Popover'
+import { getFileExtension, getMimeType } from '../../lib/fs'
 
 const responseTabList: Tab[] = [
   { id: 'response', label: 'Response', view: ResponseView },
@@ -80,6 +83,64 @@ export function Response () {
 
   const [status, setStatus] = useState<number | undefined>()
   const [responseSize, setResponseSize] = useState<number | undefined>()
+  
+  const [copyStatus, setCopyStatus] = useState<'success' | 'failure' | undefined>(undefined)
+  const copyTimeoutRef = useRef<number>()
+  
+  const [downloadStatus, setDownloadStatus] = useState<'success' | 'failure' | undefined>(undefined)
+  const downloadTimeoutRef = useRef<number>()
+  
+  function CopyAction () {
+    const { data } = useResponseStore.getState()
+    const clipboard = navigator.clipboard
+
+    if (copyTimeoutRef.current) {
+      clearTimeout(copyTimeoutRef.current)
+    }
+
+    try {
+      clipboard.writeText(data)
+      setCopyStatus('success')
+    } catch {
+      setCopyStatus('failure')
+    } finally {
+      copyTimeoutRef.current = setTimeout(() => {
+        setCopyStatus(undefined)
+      }, 1000)
+    }
+  }
+
+  function DownloadAction () {
+    const { data } = useResponseStore.getState()
+
+    if (downloadTimeoutRef.current) {
+      clearTimeout(downloadTimeoutRef.current)
+    }
+
+    try {
+      if (!data) return
+
+      const blob = new Blob([data], { type: getMimeType(display) })
+      const url = URL.createObjectURL(blob)
+
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `response${getFileExtension(display)}`
+      document.body.appendChild(a)
+      a.click()
+
+      document.body.removeChild(a)
+      URL.revokeObjectURL(url)
+
+      setDownloadStatus('success')
+    } catch {
+      setDownloadStatus('failure')
+    } finally {
+      downloadTimeoutRef.current = setTimeout(() => {
+        setDownloadStatus(undefined)
+      }, 1000)
+    }
+  }
   
   async function handleResponse (res: Response | null) {    
     if (!res) {
@@ -170,6 +231,38 @@ export function Response () {
           <span class={`${getStatusColor(status)} text-xs font-semibold w-fit min-w-fit`}>{status} {status ? STATUS_TEXTS[status] : ''}</span>
           <span class='text-xs text-base-content/80'>{responseTime ? formatDuration(responseTime) : '0ms'}</span>
           <span class='text-xs text-base-content/80'>{responseSize ? formatSize(responseSize) : '0B'}</span>
+          <Popover buttonClass='btn-sm btn-square' buttonContent={<Icon class='size-5'><IconDots /></Icon>}>
+            <div class='h-fit w-48 p-2 py-3 rounded-lg border border-base-content/20 bg-base-300'>
+              <Button
+                size='sm'
+                fill='ghost'
+                class='w-full justify-start px-3 text-base-content/70 hover:text-base-content'
+                onClick={CopyAction}
+              >
+                <Icon class='size-4'>
+                  { copyStatus === 'success'
+                    ? <IconCheck />
+                    : <IconCopy />
+                  }
+                </Icon>
+                <span>Copiar respuesta</span>
+              </Button>
+              <Button
+                size='sm'
+                fill='ghost'
+                class='w-full justify-start px-3 text-base-content/70 hover:text-base-content'
+                onClick={DownloadAction}
+              >
+                <Icon class='size-4'>
+                  { downloadStatus === 'success'
+                    ? <IconCheck />
+                    : <IconDownload />
+                  }
+                </Icon>
+                <span>Descargar respuesta</span>
+              </Button>
+            </div>
+          </Popover>
         </div>
       </div>
       <ResponseDisplay

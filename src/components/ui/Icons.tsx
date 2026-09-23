@@ -105,3 +105,32 @@ export const IconSearch = () => (
     <path d='M21 21l-6 -6' />
   </Svg>
 )
+
+export const IconDots = () => (
+  <Svg>
+    <path d='M4 12a1 1 0 1 0 2 0a1 1 0 1 0 -2 0' />
+    <path d='M11 12a1 1 0 1 0 2 0a1 1 0 1 0 -2 0' />
+    <path d='M18 12a1 1 0 1 0 2 0a1 1 0 1 0 -2 0' />
+  </Svg>
+)
+
+export const IconCopy = () => (
+  <Svg>
+    <path d='M7 9.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667l0 -8.666' />
+    <path d='M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1' />
+  </Svg>
+)
+
+export const IconDownload = () => (
+  <Svg>
+    <path d='M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2' />
+    <path d='M7 11l5 5l5 -5' />
+    <path d='M12 4l0 12' />
+  </Svg>
+)
+
+export const IconCheck = () => (
+  <Svg>
+    <path d='M5 12l5 5l10 -10' />
+  </Svg>
+)

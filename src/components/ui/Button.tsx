@@ -1,7 +1,7 @@
 import type { ButtonProps } from '../../types/buttonTypes'
 import { BUTTON_FILL_MODES, BUTTON_SHAPES, BUTTON_SIZES, BUTTON_COLORS, BUTTON_WIDTHS } from '../../constants/buttonConstants'
 
-export function Button ({ children, id, title, label, color, size, fill, shape, width, selected, disabled, focusable = true, class: className = '', onClick, style }: ButtonProps) {
+export function Button ({ children, id, title, label, color, size, fill, shape, width, selected, disabled, focusable = true, class: className = '', popoverTarget, onClick, style }: ButtonProps) {
   const btnColor = color ? BUTTON_COLORS[color] : ''
   const btnSize = size ? BUTTON_SIZES[size] : ''
   const btnFill = fill ? BUTTON_FILL_MODES[fill] : ''
@@ -20,6 +20,7 @@ export function Button ({ children, id, title, label, color, size, fill, shape, 
       style={style}
       disabled={disabled}
       tabIndex={focusable ? undefined : -1}
+      popoverTarget={popoverTarget}
       onClick={onClick}
     >
       { children || <span>
