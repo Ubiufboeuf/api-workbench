@@ -101,7 +101,7 @@ export function Response () {
     }
 
     try {
-      clipboard.writeText(data)
+      clipboard.writeText(data.text)
       setCopyStatus('success')
     } catch {
       setCopyStatus('failure')
@@ -120,9 +120,9 @@ export function Response () {
     }
 
     try {
-      if (!data) return
+      if (!data?.src) return
 
-      const blob = new Blob([data], { type: getMimeType(display) })
+      const blob = new Blob([data.src], { type: getMimeType(display) })
       const url = URL.createObjectURL(blob)
 
       const a = document.createElement('a')
@@ -167,7 +167,7 @@ export function Response () {
       const blob = new Blob([buffer], { type: extra.mimeType })
       const src = URL.createObjectURL(blob)
 
-      setData(src)
+      setData({ src, rawBuffer: buffer })
       return
     }
     
@@ -177,7 +177,7 @@ export function Response () {
 
       if (json) {
         setResponseType(RESPONSE_TYPES.JSON)
-        setData(json)
+        setData({ parsed: json, text, rawBuffer: buffer })
 
         return
       }
@@ -186,13 +186,13 @@ export function Response () {
 
       if (html) {
         setResponseType(RESPONSE_TYPES.HTML)
-        setData(html)
+        setData({ parsed: html, text, rawBuffer: buffer })
 
         return
       }
 
       setResponseType(RESPONSE_TYPES.TEXT)
-      setData(text)
+      setData({ text, rawBuffer: buffer })
 
       return
     } 

@@ -7,6 +7,7 @@ export const RESPONSE_TYPES = {
   VIDEO: 'VIDEO',
   AUDIO: 'AUDIO',
   FILE: 'FILE',
+  BINARY: 'BINARY',
   UNKNOWN: 'UNKNOWN'
 } as const
 
@@ -39,7 +40,8 @@ export const DISPLAYS = {
   TEXT: 'TEXT',
   JSON: 'JSON',
   HTML: 'HTML',
-  IMAGE: 'IMAGE'
+  IMAGE: 'IMAGE',
+  BINARY: 'BINARY'
 } as const
 
 export const STATUS_TEXTS: Record<number, string> = {

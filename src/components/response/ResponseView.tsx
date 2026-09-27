@@ -5,6 +5,7 @@ import { RESPONSE_TYPES } from '../../constants/responseConstants'
 import { isValidDisplay } from '../../validations/isValidDisplay'
 import { TEXTViewer } from './TEXTViewer'
 import { HTMLViewer } from './HTMLViewer'
+import { BinaryViewer } from './BinaryViewer'
 
 export function ResponseView () {
   const data = useResponseStore((state) => state.data)
@@ -18,20 +19,24 @@ export function ResponseView () {
   }, [responseType])
 
   if (display === RESPONSE_TYPES.TEXT) {
-    return <TEXTViewer data={data} responseType={responseType} />
+    return <TEXTViewer data={data.text} responseType={responseType} />
   }
 
   if (display === RESPONSE_TYPES.JSON) {
-    return <JSONViewer data={data} />
+    return <JSONViewer data={data.parsed} />
   }
 
   if (display === RESPONSE_TYPES.HTML) {
-    return <HTMLViewer data={data} />
+    return <HTMLViewer data={data.parsed} />
   }
 
   if (display === RESPONSE_TYPES.IMAGE) {
     return (
       <img src={data} />
     )
+  }
+
+  if (display === RESPONSE_TYPES.BINARY) {
+    return <BinaryViewer data={data.rawBuffer} />
   }
 }
