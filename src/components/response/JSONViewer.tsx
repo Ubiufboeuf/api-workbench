@@ -120,7 +120,7 @@ export function JSONViewer ({ data }: { data: object }) {
 
           if (isObject(v)) {
             return <>
-              <Line openObject comma={isLast !== true}>
+              <Line openObject comma={false}>
                 <Highlight is='key'>{key}</Highlight>
                 <Highlight is='bracket' openObject>{'{'}</Highlight>
               </Line>
