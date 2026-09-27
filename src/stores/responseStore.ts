@@ -16,6 +16,9 @@ interface ResponseStore {
 
   display: Display | null
   setDisplay: (display: Display | null) => void
+
+  responseHeaders: Headers | null
+  setResponseHeaders: (responseHeaders: Headers | null) => void
 }
 
 export const useResponseStore = create<ResponseStore>((set) => ({
@@ -32,5 +35,8 @@ export const useResponseStore = create<ResponseStore>((set) => ({
   setResponseType: (responseType) => set({ responseType }),
 
   display: null,
-  setDisplay: (display) => set({ display })
+  setDisplay: (display) => set({ display }),
+
+  responseHeaders: null,
+  setResponseHeaders: (responseHeaders) => set({ responseHeaders })
 }))

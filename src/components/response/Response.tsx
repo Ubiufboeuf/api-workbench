@@ -15,10 +15,11 @@ import { tryParseHTML, tryParseJSON } from '../../lib/parsers'
 import { Button } from '../ui/Button'
 import { Popover } from '../ui/Popover'
 import { getFileExtension, getMimeType } from '../../lib/fs'
+import { ResponseHeaders } from './ResponseHeaders'
 
 const responseTabList: Tab[] = [
-  { id: 'response', label: 'Response', view: ResponseView },
-  { id: 'otro', label: 'otro' }
+  { id: 'response', label: 'Respuesta', view: ResponseView },
+  { id: 'response-headers', label: 'Cabeceras', view: ResponseHeaders }
 ]
 
 const displays: SelectOption[] = []
@@ -75,6 +76,7 @@ export function Response () {
   const setData = useResponseStore((state) => state.setData)
 
   const setResponseType = useResponseStore((state) => state.setResponseType)
+  const setResponseHeaders = useResponseStore((state) => state.setResponseHeaders)
 
   const display = useResponseStore((state) => state.display)
   const setDisplay = useResponseStore((state) => state.setDisplay)
@@ -149,8 +151,9 @@ export function Response () {
       return
     }
 
-    const { status } = res
+    const { status, headers } = res
     setStatus(status)
+    setResponseHeaders(headers)
     
     const buffer = await res.arrayBuffer()
     const { responseType, extra } = await getResponseType(buffer)
