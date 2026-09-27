@@ -8,3 +8,9 @@ export interface KV {
 export interface Param extends KV {
   id: string
 }
+
+export interface SavedRequest {
+  id: string
+  method: string
+  name: string
+}

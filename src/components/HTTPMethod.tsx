@@ -2,7 +2,7 @@ import { useEffect } from 'preact/hooks'
 import { useRequestStore } from '../stores/requestStore'
 import { Select, type SelectOption } from './ui/Select'
 
-const methods: SelectOption[] = [
+export const methods: SelectOption[] = [
   { id: 'get', label: 'GET', color: 'var(--color-green-400)' },
   { id: 'post', label: 'POST', color: 'var(--color-blue-400)' },
   { id: 'put', label: 'PUT', color: 'var(--color-orange-400)' },
