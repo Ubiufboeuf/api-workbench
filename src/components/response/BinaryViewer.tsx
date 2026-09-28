@@ -39,7 +39,7 @@ export function BinaryViewer ({ data }: BinaryViewerProps) {
                 if (i < rowBytes.length) {
                   const b = rowBytes[i]
                   hexParts.push(b.toString(16).padStart(2, '0').toUpperCase())
-                  asciiStr += b >= 32 && b <= 126 ? String.fromCharCode(b) : 'e'
+                  asciiStr += b >= 32 && b <= 126 ? String.fromCharCode(b) : '.'
                 } else {
                   hexParts.push('  ')
                   asciiStr += ' '
