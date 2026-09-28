@@ -120,9 +120,10 @@ export function Response () {
     }
 
     try {
-      if (!data?.src) return
-
-      const blob = new Blob([data.src], { type: getMimeType(display) })
+      if (!data) return
+      
+      const content = data.rawBuffer ?? data.text
+      const blob = new Blob([content], { type: getMimeType(display) })
       const url = URL.createObjectURL(blob)
 
       const a = document.createElement('a')
