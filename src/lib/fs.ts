@@ -35,6 +35,10 @@ const TYPE_CONFIG: Record<ResponseType, { mime: string; ext: string }> = {
     mime: 'application/octet-stream',
     ext: '.bin'
   },
+  [RESPONSE_TYPES.BINARY]: {
+    mime: 'application/octet-stream',
+    ext: '.bin'
+  },
   [RESPONSE_TYPES.UNKNOWN]: {
     mime: 'application/octet-stream',
     ext: ''
